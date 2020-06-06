@@ -1,12 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import ReactDOM from "react-dom";
-import Navbar from "./layouts/Navbar";
 import AddPost from "./AddPost";
 import Posts from "./posts/Posts";
-import store from "../store";
+import Navbar from "./layouts/Navbar";
 import { Provider } from "react-redux";
+import store from "../store";
 import { getPosts } from "../actions/post";
-
 const App = () => {
     useEffect(() => {
         store.dispatch(getPosts());
@@ -15,7 +14,7 @@ const App = () => {
         <Provider store={store}>
             <Fragment>
                 <Navbar />
-                <div className="container">
+                <div className="container my-4">
                     <AddPost />
                     <Posts />
                 </div>

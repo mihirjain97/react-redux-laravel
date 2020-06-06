@@ -1,9 +1,35 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { addPost } from "../actions/post";
 
-function AddPost() {
+const AddPost = ({ addPost }) => {
+    const [formData, setFormData] = useState(
+        {
+            title: "",
+            name: ""
+        },
+        []
+    );
+    const { name, title } = formData;
+
+    const onChange = e =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = e => {
+        e.preventDefault();
+        addPost(formData);
+        setFormData({ name: "", title: "" });
+    };
+
     return (
+        <Fragment>
             <div className="mb-5">
-                <form>
+                <form
+                    onSubmit={e => {
+                        onSubmit(e);
+                    }}
+                >
                     <div className="">
                         <div className="input-field col s12">
                             <i className="material-icons prefix">
@@ -14,6 +40,8 @@ function AddPost() {
                                 type="text"
                                 className="validate"
                                 name="name"
+                                value={name}
+                                onChange={e => onChange(e)}
                             />
                             <label htmlFor="icon_prefix">Enter your Name</label>
                         </div>
@@ -24,6 +52,8 @@ function AddPost() {
                                 id="textarea1"
                                 className="materialize-textarea"
                                 name="title"
+                                value={title}
+                                onChange={e => onChange(e)}
                             ></textarea>
 
                             <label htmlFor="textarea1">Enter a Post...</label>
@@ -39,7 +69,11 @@ function AddPost() {
                     </button>
                 </form>
             </div>
+        </Fragment>
     );
-}
+};
+addPost.propTypes = {
+    addPost: PropTypes.func.isRequired
+};
 
-export default AddPost;
+export default connect(null, { addPost })(AddPost);
